@@ -20,7 +20,7 @@ export class EmployeeComponent implements OnInit {
   employeeLists : Employee[] = [];  
   skillGroup : Skill[] = [];
   skills = new FormControl();
-  // toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
 
   employeeForm= this.formBuilder();
   constructor(
