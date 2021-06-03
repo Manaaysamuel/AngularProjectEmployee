@@ -1,4 +1,4 @@
-
+<!-- 
 <html>
 <head>
 <meta charset="utf-8">
@@ -14,18 +14,18 @@
 
 <div >
 </div>
-<form class="form-group" *ngIf="employeeForm" [formGroup]="employeeForm" (ngSubmit)="submit()">
-<div class = "form-group">
+<form  *ngIf="employeeForm" [formGroup]="employeeForm" (ngSubmit)="submit()">
+<div >
 <label for = "name"> Name:  </label>
-<input type = "text"  class = "form-control"  placeholder = "Enter Name " formControlName="Name">
+<input type = "text"    placeholder = "Enter Name " formControlName="Name">
 </div>
-<div class = "form-group">
+<div >
 <label for = "lastname"> Last Name:  </label>
-<input type = "text"  class = "form-control"  placeholder = "Enter Last name " formControlName="LastName">
+<input type = "text"    placeholder = "Enter Last name " formControlName="LastName">
 </div>
-<div class = "form-group">
+<div >
 <label for = "birthdate"> Birthdate:  </label>
-<input type = "date"  class = "form-control"   formControlName="Birthdate">
+<input type = "date"    formControlName="Birthdate">
 </div>
 <br>
 <div>
@@ -41,4 +41,120 @@
 </form>
 </div>
 </body>
-</html>
+</html> -->
+<!-- <div class="container-fluid mt-3" style="min-height: 78vh;">
+    <div class="container-md collapse my-3" id="employeeCreation">
+        <form class="form-group"  >
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">Add New Employee</h3></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <label for="form-label">Employee ID</label>
+                            <input type="number" readonly min=1 formControlName="employeeID" class="form-control border-0 shadow" id="employeeID" required>
+                            <div >
+                                <div  class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle">&nbsp; </i>Cannot be empty!
+                                </div>
+                                <div  class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle">&nbsp; </i>Must be greater than 0!
+                                </div>
+                                <div  class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle">&nbsp; </i>ID already exist!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 mt-2">
+                            <label for="form-label">First Name</label>
+                            <input type="text" formControlName="firstName" class="form-control border-0 shadow" id="firstName" required>
+                            <div >
+                                <div  class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle">&nbsp; </i>Cannot be empty!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mt-2">
+                            <label for="form-label">Last Name</label>
+                            <input type="text" formControlName="lastName" class="form-control border-0 shadow" id="lastName" required>
+                            <div>
+                                <div  class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle">&nbsp; </i>Cannot be empty!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 mt-2">
+                            <label for="form-label">Birthdate</label>
+                            <input type="date" formControlName="birthdate" class="form-control border-0 shadow" id="birthdate" required>
+                            <div >
+                                <div  class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle">&nbsp; </i>Cannot be empty!
+                                </div>
+                                <div  class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle">&nbsp; </i>Age must be 15 or above!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mt-3">
+                            <h4>Skills</h4>
+                            <ul class="list-group list-group-horizontal d-flex flex-wrap justify-content-center" formArrayName="skills">                            
+                                <li class="list-group-item m-1 shadow-sm" style="border:none;" >
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"  >
+                                        <label class="form-check-label" for="skillChoice">
+                                      
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">                
+                    <button class="btn btn-primary float-end" type="submit" >Add Employee</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    -->
+    <br>
+    <br>
+<html>
+    <form  *ngIf="employeeForm" [formGroup]="employeeForm" (ngSubmit)="submit()">
+    <div class="row mb-4">
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="form4Example1" formControlName="Name" class="form-control" />
+          <label class="form-label" >First name</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" formControlName="LastName" class="form-control" />
+          <label class="form-label" >Last name</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="date" formControlName="Birthdate" class="form-control" />
+      <label class="form-label"  >Birthdate</label>
+    </div>
+    <div class="form-outline mb-4">
+        <div>
+            <mat-form-field appearance="fill" class="form-control" >
+                <mat-label>Skills</mat-label>
+                <mat-select [formControl]="skills" multiple>
+                  <mat-option *ngFor="let skills of skillGroup" [value]="skills">{{skills.SkillName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+     
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+  </form>
+  </html>

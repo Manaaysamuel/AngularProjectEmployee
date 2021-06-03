@@ -4,7 +4,7 @@ import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
 import {FormControl} from '@angular/forms';
 
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
 
 import{Skill} from '../skills/Skill';
 import {SkillsService} from '../skills.service';
