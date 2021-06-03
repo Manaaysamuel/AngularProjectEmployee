@@ -17,43 +17,20 @@
 <form class="form-group" *ngIf="employeeForm" [formGroup]="employeeForm" (ngSubmit)="submit()">
 <div class = "form-group">
 <label for = "name"> Name:  </label>
-<input type = "text"  class = "form-control"  placeholder = "Enter Name " formControlName="name">
+<input type = "text"  class = "form-control"  placeholder = "Enter Name " formControlName="Name">
 </div>
 <div class = "form-group">
 <label for = "lastname"> Last Name:  </label>
-<input type = "text"  class = "form-control"  placeholder = "Enter Last name " formControlName="lastname">
+<input type = "text"  class = "form-control"  placeholder = "Enter Last name " formControlName="LastName">
 </div>
 <div class = "form-group">
 <label for = "birthdate"> Birthdate:  </label>
-<input type = "date"  class = "form-control"   formControlName="birthdate">
-</div>
-<div class = "form-group">
-<label for = "phone"> Skills:  </label>
-<input type = "text"  class = "form-control" placeholder = "Enter Skills" formControlName="skills">
+<input type = "date"  class = "form-control"   formControlName="Birthdate">
 </div>
 <br>
-<input type="hidden" formControlName="id">
-<input type="submit" id="submit" value="Submit" />
+<input type="hidden" formControlName="EmpID">
+<button type="submit" >Add Employee</button>
 </form>
-
 </div>
 </body>
 </html>
-<!-- 
-<html>
-    <form class="form-group" *ngIf="employeeForm" [formGroup]="employeeForm" >
-       Value: {{employeeForm.value | json}}
-        <mat-form-field>
-            <input matInput placeholder="Enter First Name" formControlName="name">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Enter Last Name" formControlName="lastname">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="name" formControlName="name">
-        </mat-form-field>
-        <mat-form-field>
-            <input type="date" matInput formControlName="birthdate">
-        </mat-form-field>
-    </form>
-</html> -->

@@ -17,11 +17,11 @@
     <form class="form-group" *ngIf="skillSetForm" [formGroup]="skillSetForm" (ngSubmit)="submit()">
     <div class = "form-group">
     <label for = "phone"> Skills:  </label>
-    <input type = "text"  class = "form-control" placeholder = "Enter Skills" formControlName="skills">
+    <input type = "text"  class = "form-control" placeholder = "Enter Skills" formControlName="SkillName">
     </div>
     <br>
-    <input type="hidden" formControlName="id">
-    <input type="submit" id="submit" value="Submit" />
+    <input type="hidden" formControlName="SkillID">
+    <button type="submit" >Add Skills</button>
     </form>
     
     </div>
