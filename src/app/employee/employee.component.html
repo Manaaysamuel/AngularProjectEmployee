@@ -28,6 +28,14 @@
 <input type = "date"  class = "form-control"   formControlName="Birthdate">
 </div>
 <br>
+<div>
+    <mat-form-field appearance="fill">
+        <mat-label>Skills</mat-label>
+        <mat-select [formControl]="skills" multiple>
+          <mat-option *ngFor="let skills of skillGroup" [value]="skills">{{skills.SkillName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>
 <input type="hidden" formControlName="EmpID">
 <button type="submit" >Add Employee</button>
 </form>

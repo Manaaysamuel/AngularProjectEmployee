@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
+import {FormControl} from '@angular/forms';
 
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
+import{Skill} from '../skills/Skill';
+import {SkillsService} from '../skills.service';
 
 @Component({
   selector: 'app-employee',
@@ -13,32 +18,29 @@ import { RegistrationService } from '../registration.service';
 export class EmployeeComponent implements OnInit {
   EmpID : number = 1;
   employeeLists : Employee[] = [];  
+  skillGroup : Skill[] = [];
+  skills = new FormControl();
+  // toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
   employeeForm= this.formBuilder();
   constructor(
     private fb:FormBuilder,
-    private employeeData : RegistrationService
+    private employeeData : RegistrationService,
+    private skillData :SkillsService
     ) { }
 
   ngOnInit(): void {
     this.getEmployees();
+    this.getSkills();
     this.employeeForm = this.formBuilder();
-    // LastValue = JSON.parse(localStorage.getItem('data') || '[]');
-    // GetEmpID = LastValue.pop()?.id;
-    // EmpID = GetEmpID == undefined || null ? GetEmpID = 1 : GetEmpID + 1
-    // console.log(EmpID);
-    // this.employeeForm = this.fb.group({
-    //   EmpID: EmpID,
-    //   Name: '',
-    //   LastName:'',
-    //   Birthdate:'',
-    // })
+
   }
   formBuilder() {
 
     for(;this.employeeLists.findIndex(emp=>emp.EmpID===this.EmpID) > -1; this.EmpID++);
 
     return this.fb.group({
-         EmpID : [this.EmpID],
+        EmpID : [this.EmpID],
         Name: [''],
         LastName: [''],
         Birthdate: [''],
@@ -47,6 +49,10 @@ export class EmployeeComponent implements OnInit {
   getEmployees() : void {
     this.employeeLists = this.employeeData.getEmployees();
   }
+  getSkills() : void {
+    this.skillGroup = this.skillData.getSkills();
+  }
+
   submit(): void {
   let employee = this.employeeForm?.value;
   let datainfo : Employee = {

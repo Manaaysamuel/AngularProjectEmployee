@@ -20,9 +20,6 @@ export class SkillsComponent implements OnInit {
   ngOnInit(): void {
     this.getSkills();
     this.skillSetForm = this.formBuilder();
-    // this.skillSetForm = this.fb.group({
-    //   skills: '',
-    // })
   }
   formBuilder() {
     for(;this.SkillList.findIndex(skill=>skill.SkillID===this.SkillID) > -1; this.SkillID++);
