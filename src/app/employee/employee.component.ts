@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup} from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
 import {FormControl} from '@angular/forms';
@@ -44,6 +44,7 @@ export class EmployeeComponent implements OnInit {
         Name: [''],
         LastName: [''],
         Birthdate: [''],
+        Skills: this.fb.array([])
       })
   }
   getEmployees() : void {
@@ -54,16 +55,20 @@ export class EmployeeComponent implements OnInit {
   }
 
   submit(): void {
+    console.log(this.employeeForm)
   let employee = this.employeeForm?.value;
+
   let datainfo : Employee = {
     EmpID: employee.EmpID,
     Name: employee.Name,
     LastName: employee.LastName,
     Birthdate: employee.Birthdate,
+    Skills: employee.Skills,
   }
   this.employeeData.setEmployee(datainfo);
   this.employeeForm = this.formBuilder();
   document.getElementById("EmpID")?.focus();
+  window.alert("New Employee has been successfully added");
   window.location.reload();
     // var new_data = (this.employeeForm?.value);
     // console.log(new_data);
@@ -79,6 +84,14 @@ export class EmployeeComponent implements OnInit {
     
 
   }
-  
+  getSkillID(selectedSkill : boolean[]){
+    var ids : number[] = [];
+    this.skillGroup.forEach((value, index)=>{
+      if(selectedSkill[index]){
+        ids.push(value.SkillID);
+      }
+    });
+    return ids;
+  }
   
 }

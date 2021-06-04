@@ -17,4 +17,8 @@ export class HomeComponent implements OnInit {
   getEmployees() : void {
     this.employeeLists = this.employeeData.getEmployees();
   }
+  getAge(date:any){
+    return this.employeeData.getAge(date);
+  }
+  
 }

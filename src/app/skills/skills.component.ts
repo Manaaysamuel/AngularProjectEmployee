@@ -41,6 +41,7 @@ export class SkillsComponent implements OnInit {
     this.SkillsData.setSkills(skilldatainfo);
     this.skillSetForm = this.formBuilder();
     document.getElementById("SkillID")?.focus();
+    window.alert("New Skill has been successfully added");
     window.location.reload();
 
     // var new_data = (this.skillSetForm?.value);
