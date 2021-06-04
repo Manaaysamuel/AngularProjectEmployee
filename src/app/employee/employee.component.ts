@@ -19,10 +19,10 @@ export class EmployeeComponent implements OnInit {
   EmpID : number = 1;
   employeeLists : Employee[] = [];  
   skillGroup : Skill[] = [];
-  skills = new FormControl();
+  Skills = new FormControl();
+  employeeForm : FormGroup | undefined;
 
 
-  employeeForm= this.formBuilder();
   constructor(
     private fb:FormBuilder,
     private employeeData : RegistrationService,
@@ -30,14 +30,17 @@ export class EmployeeComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.getEmployees();
     this.getSkills();
-    this.employeeForm = this.formBuilder();
+    this.getEmployees();
+    this.employeeForm = this.InitializeData();
 
   }
-  formBuilder() {
+  InitializeData() {
 
-    for(;this.employeeLists.findIndex(emp=>emp.EmpID===this.EmpID) > -1; this.EmpID++);
+    for(
+      ;this.employeeLists.findIndex(
+        emp=>emp.EmpID===this.EmpID
+        ) > -1; this.EmpID++);
 
     return this.fb.group({
         EmpID : [this.EmpID],
@@ -55,9 +58,8 @@ export class EmployeeComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.employeeForm)
+  console.log(this.employeeForm?.value)
   let employee = this.employeeForm?.value;
-
   let datainfo : Employee = {
     EmpID: employee.EmpID,
     Name: employee.Name,
@@ -66,7 +68,7 @@ export class EmployeeComponent implements OnInit {
     Skills: employee.Skills,
   }
   this.employeeData.setEmployee(datainfo);
-  this.employeeForm = this.formBuilder();
+  this.employeeForm = this.InitializeData();
   document.getElementById("EmpID")?.focus();
   window.alert("New Employee has been successfully added");
   window.location.reload();
@@ -84,14 +86,6 @@ export class EmployeeComponent implements OnInit {
     
 
   }
-  getSkillID(selectedSkill : boolean[]){
-    var ids : number[] = [];
-    this.skillGroup.forEach((value, index)=>{
-      if(selectedSkill[index]){
-        ids.push(value.SkillID);
-      }
-    });
-    return ids;
-  }
+ 
   
 }

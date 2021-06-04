@@ -15,6 +15,7 @@ import  {MatButtonModule} from '@angular/material/button';
 import  {MatCheckboxModule} from '@angular/material/checkbox';
 import  {MatChipsModule} from '@angular/material/chips';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
 
 
 // import  {} from;
@@ -26,7 +27,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     EmployeeComponent,
     SkillsComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    EmployeeEditComponent
   ],
   imports: [
     BrowserModule,

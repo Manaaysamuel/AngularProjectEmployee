@@ -1,10 +1,26 @@
 <html>
+  
     <style>
+      a:link, a:visited {
+      background-color: #00c8e2;
+      color: white;
+      padding: 8px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      size: 20px;
+    }
+
+      a:hover, a:active {
+        background-color: red;
+      }
         #table {
           font-family: Arial, Helvetica, sans-serif;
           border-collapse: collapse;
           width: 100%;
           margin-top: 20px;
+          padding-left: 20px;
+          padding-right: 20px;
         }
         
         #table td, #Employee th {
@@ -18,22 +34,25 @@
         
         #table th {
           padding-top: 12px;
+     
           padding-bottom: 12px;
           text-align: left;
           background-color: #6731fb;
           color: white;
         }
         </style>
-        <div>
+        <br>
+        <h4 style="padding-left: 20px;">List of Employees </h4>
+        <div style="padding-right: 20px; padding-left: 20px;">
             <table id="table">
                 <thead>
                     <tr>
-                           <th>Employee ID</th>
+                           <th style="width: 5%;">Employee ID</th>
                            <th>First Name</th>
                            <th>Last Name</th>
                            <th>Birthdate</th>
-                           <th>Age</th>
-                           <th>Action</th>
+                           <th style="width: 5%;">Age</th>
+                           <th style="width: 12%;">Action</th>
                            
                 </thead>
                 <tbody>
@@ -44,7 +63,14 @@
                        <td>{{employee.Birthdate}}</td>
                        <td>{{getAge(employee.Birthdate)}}</td>
                        <td>
-                        <button type="submit" class="btn btn-primary btn-block mb-4 btn-sm">Update</button>
+                        <!-- <a href="employee-edit/{{employee.EmpID}}" class="btn btn-primary btn-block mb-4 btn-sm" target="_blank">Update</a>
+                        <a mat-button routerLink="employee-edit/{{employee.EmpID}}" class="btn btn-primary btn-block mb-4 btn-sm" target="_blank">Update</a> -->
+                        <a routerLink="/employee-edit/{{employee.EmpID}}" style="width: 100%;" class="btn btn-success mx-auto">
+                         Update
+                        </a>
+                        <br>
+                        <br>
+                        <!-- <button type="button" class="btn btn-primary btn-block mb-4 btn-sm" (click)="btnClick();"><i class="fa fa-plus"></i> Update</button>     -->
                         <button type="submit" class="btn btn-danger btn-block mb-4 btn-sm">Delete</button>
                         </td>
                        </tr>

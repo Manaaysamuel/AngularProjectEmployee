@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,7 +10,8 @@ import { RegistrationService } from '../registration.service';
 export class HomeComponent implements OnInit {
   employeeLists : Employee[] = [];  
   constructor(
-    private employeeData : RegistrationService
+    private employeeData : RegistrationService,
+    private router: Router
   ) { }
   ngOnInit(): void {
     this.getEmployees();
@@ -20,5 +22,8 @@ export class HomeComponent implements OnInit {
   getAge(date:any){
     return this.employeeData.getAge(date);
   }
-  
+  btnClick () {
+
+        this.router.navigateByUrl("/employee-edit/{{this.employeeLists}}");
+};
 }

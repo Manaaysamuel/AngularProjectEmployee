@@ -1,41 +1,5 @@
-<!-- 
-    <br>
-    <br>
+
 <html>
-    <form  *ngIf="employeeForm" [formGroup]="employeeForm" (ngSubmit)="submit()">
-    <div class="row mb-4">
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" id="form4Example1" formControlName="Name" class="form-control" />
-          <label class="form-label" >First name</label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" formControlName="LastName" class="form-control" />
-          <label class="form-label" >Last name</label>
-        </div>
-      </div>
-    </div>
-    <div class="form-outline mb-4">
-      <input type="date" formControlName="Birthdate" class="form-control" />
-      <label class="form-label"  >Birthdate</label>
-    </div>
-    <div class="form-outline mb-4">
-        <div>
-            <mat-form-field appearance="fill" class="form-control"   >
-                <mat-label>Skills</mat-label>
-                <mat-select [formControl]="skills"multiple >
-                  <mat-option *ngFor="let skills of skillGroup" [value]="skills">{{skills.SkillName}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-        </div>
-     
-    </div>
-    <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
-  </form>
-  </html> -->
-  <html>
 <style>
 input[type=text], select {
   width: 100%;
@@ -84,25 +48,14 @@ div {
     <input type="date" formControlName="Birthdate" class="form-control" />
 <br>
 
-  <mat-form-field appearance="fill" class="form-control" formControlName="skills"  >
+  <mat-form-field appearance="fill" class="form-control" formControlName="Skills"  >
       <mat-label>Skills</mat-label>
-      <mat-select [formControl]="skills" multiple >
-        <mat-option *ngFor="let skills of skillGroup" [value]="skills">{{skills.SkillName}}</mat-option>
+      <mat-select [formControl]="Skills" multiple >
+        <mat-option *ngFor="let skills of skillGroup" [value]="Skills">{{skills.SkillName}}</mat-option>
       </mat-select>
     </mat-form-field>
-
-
 <br>
-
 <br>
-
-    <!-- <label for="country">Country</label>
-    <select id="country" name="country">
-      <option value="australia">Australia</option>
-      <option value="canada">Canada</option>
-      <option value="usa">USA</option>
-    </select> -->
-  
     <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
   </form>
 </div>
