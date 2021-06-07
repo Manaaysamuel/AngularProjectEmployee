@@ -5,6 +5,7 @@ import { RegistrationService } from '../registration.service';
 import {FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import{Skill} from '../skills/Skill';
+import { ActivatedRoute } from '@angular/router';
 import {SkillsService} from '../skills.service';
 
 @Component({
@@ -14,114 +15,159 @@ import {SkillsService} from '../skills.service';
 })
 
 export class EmployeeEditComponent implements OnInit {
-
-  EmpID : number = 1;
-  employeeLists : Employee[] = [];
+  employee : Employee | undefined;
+  employeeForm = this.fb.group({
+    employeeID : [''],
+    firstName : [''],
+    lastName : [''],
+    birthdate : ['0000-00-00'
+    ],
+    skills : this.fb.array([])
+  });
   skillGroup : Skill[] = [];
-  skills = new FormControl();
+  
+  // EmpID : number = 1;
+  // employeeLists : Employee[] = [];
+  // skillGroup : Skill[] = [];
+  // skills = new FormControl();
+  // FName : string = "";
+  // LName : string = "";
+  // Bday = new Date();
 
 
-  employeeForm= this.InitializeData();
+  // employeeForm= this.InitializeData();
+  
 
   constructor(
     private fb:FormBuilder,
+    private location : Location,
+    private activatedRoute : ActivatedRoute,
     private employeeData : RegistrationService,
     private skillData :SkillsService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.getEmployees();
+    this.getEmployee();
+    this.getSkills();
+ 
+    // const getID = this.router.url.split('/')[2];
+    // console.log(getID);
+    // var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
+    // var EmployeeDatas =  EmpData.filter(function(Employee: { EmpID: string; }) {
+    //   return Employee.EmpID == getID;
+    // })
+    //  this.FName = EmployeeDatas.Name;
+    //  this.LName = EmployeeDatas.LastName;
+    //  this.Bday = EmployeeDatas.Birthdate;
+    
+ 
+
+
+    // this.getEmployees();
     this.getSkills();
     // this.getEmployeeData();
 
 
 
-    this.employeeForm = this.InitializeData();
-    console.log(this.employeeForm);
+    // this.employeeForm = this.InitializeData();
+    // console.log(this.employeeForm);
+  }
+
+  getEmployee(){
+    const getID = this.router.url.split('/')[2];
+    var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
+    var EmployeeDatas =  EmpData.filter(function(Employee: { EmpID: string; }) {
+      return Employee.EmpID == getID;
+    })
+    this.employee = EmployeeDatas;
+      this.employeeForm.patchValue({
+        employeeID : this.employee?.EmpID,
+        firstName : this.employee?.Name,
+        lastName : this.employee?.LastName,
+        birthdate : this.employee?.Birthdate
+      });    
+
+      console.log(this.employee)
+    //   this.skillGroup.forEach((skill)=>{
+    //     if(employee.skills.findIndex(sk=>skill.id===sk) >= 0){
+    //       this.skills.push(this.formBuilder.control(true));
+    //     }else{
+    //       this.skills.push(this.formBuilder.control(false));
+    //     }
+    //   });
+    // });
+  }
+
+  updateChange() : void {
+    let employee = this.employeeForm.value;
+    let data : Employee = {
+      EmpID: employee.EmpID,
+      Name: employee.Name,
+      LastName: employee.LastName,
+      Birthdate: employee.Birthdate,
+      Skills: []
+      // skills: this.getSkillID(employee.skills)
+    }
+    this.employeeData.updateEmployee(data);
+    document.getElementById("modalCloseBtn")?.click();
   }
   getEmployeeData(){
-    const getID = this.router.url.split('/')[2];
-    console.log(getID);
-    var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-
-    var Data =  EmpData.filter(function(Employee: { EmpID: string; }) {
-      return Employee.EmpID == getID;
-
-
-  })
-  console.log(Data);
+  //   const getID = this.router.url.split('/')[2];
+  //   console.log(getID);
+  //   var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
+  //   var Data =  EmpData.filter(function(Employee: { EmpID: string; }) {
+  //     return Employee.EmpID == getID;
+  // })
+  // console.log(Data);
   }
 
 
   InitializeData() {
 
-    const getID = this.router.url.split('/')[2];
-    console.log(getID);
-    var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-    var EmployeeData =  EmpData.filter(function(Employee: { EmpID: string; }) {
-      return Employee.EmpID == getID;
-  })
-    this.employeeLists = EmployeeData;
+  //   const getID = this.router.url.split('/')[2];
 
-    // for(
-    //   ;this.employeeLists.findIndex(
-    //     emp=>emp.EmpID===this.EmpID
-    //     ) > -1; this.EmpID++);
+  //   var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
+  //   var EmployeeData =  EmpData.filter(function(Employee: { EmpID: string; }) {
+  //     return Employee.EmpID == getID;
+  // })
 
-    // return this.fb.group({
-    //     EmpID : [this.EmpID],
-    //     Name: EmployeeData.Name,
-    //     LastName: EmployeeData.LastName,
-    //     Birthdate: EmployeeData.Birthdate,
-    //     Skills: this.fb.array([])
-    //   })
   }
-  getEmployees() : void {
-    const getID = this.router.url.split('/')[2];
-    console.log(getID);
-    var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-    var EmployeeDatas =  EmpData.filter(function(Employee: { EmpID: string; }) {
-      return Employee.EmpID == getID;
-    })
-    this.employeeLists = EmployeeDatas;
 
+  
+
+  getEmployees() : void {
+    // const getID = this.router.url.split('/')[2];
+    // console.log(getID);
+    // var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
+    // var EmployeeDatas =  EmpData.filter(function(Employee: { EmpID: string; }) {
+    //   return Employee.EmpID == getID;
+    // })
+    // this.employeeLists = EmployeeDatas;
+ 
   }
   getSkills() : void {
-    this.skillGroup = this.skillData.getSkills();
+     this.skillGroup = this.skillData.getSkills();
   }
 
   submit():void{
-    this.employeeForm = this.InitializeData();
+    // this.employeeForm = this.InitializeData();
   }
-  // submit(): void {
+  get fname() {
+    return this.employeeForm.get("Name");
+  }
+
+  get lname() {
+    return this.employeeForm.get("LastName");
+  }
+
+  get bdate() {
+    return this.employeeForm.get("Birthdate");
+  }
+
+  // get skills() {
+  //   return this.employeeForm.get("skills") as FormArray;
+  // }
  
-  // let employee = this.employeeForm;
-  // let datainfo : Employee = {
-  //   EmpID: employee.controls.EmpID.value,
-  //   Name: employee.controls.Name.value,
-  //   LastName: employee.controls.LastName.value,
-  //   Birthdate: employee.controls.Birthdate.value,
-  //   Skills: employee.controls.Skills.value,
-  // }
-  // this.employeeData.setEmployee(datainfo);
-  // this.employeeForm = this.InitializeData();
-  // document.getElementById("EmpID")?.focus();
-  // window.alert("New Employee has been successfully added");
-  // window.location.reload();
-  //   // var new_data = (this.employeeForm?.value);
-  //   // console.log(new_data);
-  //   // console.log(JSON.stringify(this.employeeForm?.value));
-  //   // if(localStorage.getItem('data') == null){
-  //   //   localStorage.setItem('data','[]');
-  //   // }
-  //   // var old_data = JSON.parse(localStorage.getItem('data') || '{}');
-
-  //   // old_data.push(new_data);
-  //   // localStorage.setItem('data',JSON.stringify(old_data));
-
-
-
-  // }
 
 }

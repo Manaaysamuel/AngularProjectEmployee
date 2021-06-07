@@ -19,10 +19,11 @@ export class EmployeeComponent implements OnInit {
   EmpID : number = 1;
   employeeLists : Employee[] = [];  
   skillGroup : Skill[] = [];
-  Skills = new FormControl();
-  employeeForm : FormGroup | undefined;
+  skills = new FormControl();
+ 
 
-
+  phases = new FormControl();
+  employeeForm= this.InitializeData();
   constructor(
     private fb:FormBuilder,
     private employeeData : RegistrationService,
@@ -33,8 +34,18 @@ export class EmployeeComponent implements OnInit {
     this.getSkills();
     this.getEmployees();
     this.employeeForm = this.InitializeData();
-
+ 
+    this.skills.valueChanges.subscribe(data => {
+      // console.log('Selected Options', data)
+    //  this.employeeForm?.value.Skills = [data]
+   
+    this.employeeForm?.value.Skills.push(data);
+    console.log(this.employeeForm?.value.Skills)
+    });
   }
+  
+  
+
   InitializeData() {
 
     for(
@@ -52,11 +63,14 @@ export class EmployeeComponent implements OnInit {
   }
   getEmployees() : void {
     this.employeeLists = this.employeeData.getEmployees();
+    
   }
   getSkills() : void {
     this.skillGroup = this.skillData.getSkills();
   }
-
+  get skillsinfo() {
+    return this.employeeForm?.get("skills") as FormArray;
+  }
   submit(): void {
   console.log(this.employeeForm?.value)
   let employee = this.employeeForm?.value;
@@ -65,7 +79,7 @@ export class EmployeeComponent implements OnInit {
     Name: employee.Name,
     LastName: employee.LastName,
     Birthdate: employee.Birthdate,
-    Skills: employee.Skills,
+    Skills: this.getSkillID(employee.Skills)
   }
   this.employeeData.setEmployee(datainfo);
   this.employeeForm = this.InitializeData();
@@ -85,6 +99,20 @@ export class EmployeeComponent implements OnInit {
 
     
 
+  }
+  getSkillName(id : number){
+    return this.skillData.getSkillName(id);
+  }
+  
+  
+  getSkillID(selectedSkill : boolean[]){
+    var ids : number[] = [];
+    this.skillGroup.forEach((value, index)=>{
+      if(selectedSkill[index]){
+        ids.push(value.SkillID);
+      }
+    });
+    return ids;
   }
  
   

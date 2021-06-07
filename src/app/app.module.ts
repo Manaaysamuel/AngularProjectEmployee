@@ -16,6 +16,8 @@ import  {MatCheckboxModule} from '@angular/material/checkbox';
 import  {MatChipsModule} from '@angular/material/chips';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
+import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
+import { SkillseditComponent } from './skillsedit/skillsedit.component';
 
 
 // import  {} from;
@@ -28,7 +30,9 @@ import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
     SkillsComponent,
     HomeComponent,
     HeaderComponent,
-    EmployeeEditComponent
+    EmployeeEditComponent,
+    EditEmployeeComponent,
+    SkillseditComponent
   ],
   imports: [
     BrowserModule,

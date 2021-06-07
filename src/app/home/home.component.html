@@ -65,13 +65,15 @@
                        <td>
                         <!-- <a href="employee-edit/{{employee.EmpID}}" class="btn btn-primary btn-block mb-4 btn-sm" target="_blank">Update</a>
                         <a mat-button routerLink="employee-edit/{{employee.EmpID}}" class="btn btn-primary btn-block mb-4 btn-sm" target="_blank">Update</a> -->
-                        <a routerLink="/employee-edit/{{employee.EmpID}}" style="width: 100%;" class="btn btn-success mx-auto">
+                        <a routerLink="/edit-employee/{{employee.EmpID}}" style="width: 100%;" class="btn btn-success mx-auto">
                          Update
                         </a>
                         <br>
                         <br>
                         <!-- <button type="button" class="btn btn-primary btn-block mb-4 btn-sm" (click)="btnClick();"><i class="fa fa-plus"></i> Update</button>     -->
-                        <button type="submit" class="btn btn-danger btn-block mb-4 btn-sm">Delete</button>
+                        <!-- <button type="submit" class="btn btn-danger btn-block mb-4 btn-sm">Delete</button> -->
+                        <button type="button" (click)="btnRemove(employee.EmpID)" style="width: 100%;"
+                            class="btn btn-danger">Delete</button> 
                         </td>
                        </tr>
                        </tbody>

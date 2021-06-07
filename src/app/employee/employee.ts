@@ -4,5 +4,5 @@ export interface Employee {
     Name: string;
     LastName: string;
     Birthdate: Date;
-    Skills: string[];
+    Skills: number[];
 }

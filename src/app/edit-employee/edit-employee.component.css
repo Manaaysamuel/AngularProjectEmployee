@@ -32,7 +32,3 @@
 #checkboxes label:hover {
   background-color: #1e90ff;
 }
-
-.dropdown-menu label {
-  display: block;
-}

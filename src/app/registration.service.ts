@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {Employee} from './employee/employee';
 import { Employees } from './employee/employees';
-
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrationService {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   getEmployees() : Employee[] { 
     return Employees();
@@ -27,5 +29,28 @@ export class RegistrationService {
     ).getUTCFullYear() - 1970);
     return dateResult;
   }
+  convrtDate(date:any) : number { 
+
+    var newdate = date.split("-").reverse().join("-");
+    return newdate;
+  }
+  updateEmployee(employee : Employee) : void {
+    const getID = this.router.url.split('/')[2];
+    let employees = this.getEmployees();
+    console.log(employee)
+    const index = employees.findIndex( emp => emp.EmpID === employee.EmpID );
+    console.log(index)
+     var EmployeeData = JSON.parse(localStorage.data);
+    for (var i = 0; i < EmployeeData.length; i++) {
+   if(getID == EmployeeData[i].EmpID){ 
+    EmployeeData[i].Name = employee.Name; 
+    EmployeeData[i].LastName = employee.LastName;  
+    EmployeeData[i].Birthdate = employee.Birthdate; 
+       break;  
+   }
+}
+console.log(EmployeeData)
+  localStorage.setItem("data", JSON.stringify(EmployeeData));  
+  }  
 
 }

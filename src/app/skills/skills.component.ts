@@ -43,19 +43,21 @@ export class SkillsComponent implements OnInit {
     document.getElementById("SkillID")?.focus();
     window.alert("New Skill has been successfully added");
     window.location.reload();
-
-    // var new_data = (this.skillSetForm?.value);
-    // console.log(new_data);
-    // console.log(JSON.stringify(this.skillSetForm?.value));
-    // if(localStorage.getItem('skills') == null){
-    //   localStorage.setItem('skills','[]');
-    // }
-    // var old_data = JSON.parse(localStorage.getItem('skills') || '{}');
-    // console.log(old_data);
-    
-    // old_data.push(new_data);
-    // localStorage.setItem('skills',JSON.stringify(old_data));
   }
+
+  
+btnRemove(SkillID : number) : void {
+  var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
+  // window.confirm("Are you sure you want to delete this data?");
+if (confirm("Are you sure you want to delete this data?")) {
+  SkillData = SkillData.filter((Skill: { SkillID: number; }) => Skill.SkillID != SkillID);
+  window.localStorage['data'] = JSON.stringify(SkillData);
+  console.log(SkillData);
+  window.location.reload();
+} else {
+  window.location.reload();
+}
+}
   
 
 }

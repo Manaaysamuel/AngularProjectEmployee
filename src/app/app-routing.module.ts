@@ -4,6 +4,8 @@ import {EmployeeComponent} from './employee/employee.component';
 import {HomeComponent} from './home/home.component';
 import{SkillsComponent} from './skills/skills.component';
 import {EmployeeEditComponent} from './employee-edit/employee-edit.component';
+import {EditEmployeeComponent} from './edit-employee/edit-employee.component';
+import {SkillseditComponent} from './skillsedit/skillsedit.component';
 const routes: Routes = [
   {
     path:"home",
@@ -20,6 +22,14 @@ const routes: Routes = [
   {
     path:"employee-edit/:id",
     component:EmployeeEditComponent
+  },
+  {
+    path:"edit-employee/:id",
+    component:EditEmployeeComponent
+  },
+  {
+    path:"edit-skills/:id",
+    component:SkillseditComponent
   },
 ];
 

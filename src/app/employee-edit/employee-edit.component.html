@@ -37,7 +37,34 @@
     <h3>Update Employee</h3>
     
     <div>
-      <!-- <form *ngFor="let employee of employeeLists"  [formGroup]="employeeForm" (ngSubmit)="submit()"> -->
+        <form class="form" *ngIf="employee" [formGroup]="employeeForm" (submit)="updateChange()" >
+          <label for="firstName" class="form-label">First Name: {{employee.Name}}</label>
+          <input id="firstName" type="text" class="form-control" formControlName="firstName" >
+      
+          <label for="lastName" class="form-label">Last Name: {{employee.LastName}}</label>
+          <input id="lastName" type="text" class="form-control" formControlName="lastName" required>
+      
+          <label for="lname">Birthdate</label>
+          <!-- <input type="text" value="{{employee.Birthdate}}" formControlName="LastName" class="form-control" /> -->
+          <div class="input-group">
+            <label for="bdate" class="input-group-text d-none d-md-block">Birth Date: {{employee.Birthdate}}</label>
+            <input type="date" id="bdate" class="form-control" formControlName="birthdate" required>
+        </div>
+      <br>
+      
+        <!-- <mat-form-field appearance="fill" class="form-control" formControlName="Skills"  >
+            <mat-label>Skills</mat-label>
+            <mat-select [formControl]="Skills" multiple >
+              <mat-option *ngFor="let skills of skillGroup" [value]="Skills">{{skills.SkillName}}</mat-option>
+            </mat-select>
+          </mat-form-field> -->
+      <br>
+      <br>
+          <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+        </form>
+      </div>
+
+    <!-- <div>
       <form *ngFor="let employee of employeeLists"    (ngSubmit)="submit()">
         <label for="fname">First Name</label>
         <input type="text" formControlName="Name" class="form-control"  value="{{employee.Name}}"/>
@@ -59,7 +86,7 @@
     <br>
         <button type="submit" class="btn btn-primary btn-block mb-4">Update</button>
       </form>
-    </div>
+    </div> -->
     
     </body>
     </html>
