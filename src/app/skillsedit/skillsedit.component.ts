@@ -52,7 +52,9 @@ skillSetForm = this.fb.group(
     let skill = this.skillSetForm.value;
     this.skillDataService.updateSkills(skill);
     window.alert("Skill selected has been successfully updated");
-    window.location.reload();
+    // window.location.reload();
+    this.router.navigate(['/skills']);
+ 
    
   }
 

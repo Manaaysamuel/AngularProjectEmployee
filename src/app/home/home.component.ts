@@ -36,7 +36,6 @@ getSkillName(id : number){
 
 btnRemove(employeeID : number) : void {
     var EmployeeData = JSON.parse(localStorage.getItem('data') || '{}');
-    // window.confirm("Are you sure you want to delete this data?");
   if (confirm("Are you sure you want to delete this data?")) {
     EmployeeData = EmployeeData.filter((Employee: { EmpID: number; }) => Employee.EmpID != employeeID);
     window.localStorage['data'] = JSON.stringify(EmployeeData);

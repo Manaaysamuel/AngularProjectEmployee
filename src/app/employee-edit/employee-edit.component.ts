@@ -77,52 +77,16 @@ export class EmployeeEditComponent implements OnInit {
       LastName: employee.LastName,
       Birthdate: employee.Birthdate,
       Skills: []
-      // skills: this.getSkillID(employee.skills)
     }
     this.employeeData.updateEmployee(data);
     document.getElementById("modalCloseBtn")?.click();
   }
-  getEmployeeData(){
-  //   const getID = this.router.url.split('/')[2];
-  //   console.log(getID);
-  //   var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-  //   var Data =  EmpData.filter(function(Employee: { EmpID: string; }) {
-  //     return Employee.EmpID == getID;
-  // })
-  // console.log(Data);
-  }
 
 
-  InitializeData() {
-
-  //   const getID = this.router.url.split('/')[2];
-
-  //   var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-  //   var EmployeeData =  EmpData.filter(function(Employee: { EmpID: string; }) {
-  //     return Employee.EmpID == getID;
-  // })
-
-  }
-
-  
-
-  getEmployees() : void {
-    // const getID = this.router.url.split('/')[2];
-    // console.log(getID);
-    // var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-    // var EmployeeDatas =  EmpData.filter(function(Employee: { EmpID: string; }) {
-    //   return Employee.EmpID == getID;
-    // })
-    // this.employeeLists = EmployeeDatas;
- 
-  }
   getSkills() : void {
      this.skillGroup = this.skillData.getSkills();
   }
 
-  submit():void{
-    // this.employeeForm = this.InitializeData();
-  }
   get fname() {
     return this.employeeForm.get("Name");
   }
@@ -135,9 +99,5 @@ export class EmployeeEditComponent implements OnInit {
     return this.employeeForm.get("Birthdate");
   }
 
-  // get skills() {
-  //   return this.employeeForm.get("skills") as FormArray;
-  // }
- 
 
 }

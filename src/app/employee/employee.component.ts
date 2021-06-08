@@ -36,22 +36,13 @@ export class EmployeeComponent implements OnInit {
     this.employeeForm = this.InitializeData();
  
     this.skills.valueChanges.subscribe(data => {
-      // console.log('Selected Options', data)
-    //  this.employeeForm?.value.Skills = [data]
-  
-
+ 
     this.employeeForm?.value.Skills.push(data);
 
     var data = this.employeeForm?.value.Skills
      const obj  = data[data.length - 1]
 
      this.newdata = obj.map((i: any)=>Number(i));
-    //  var b = obj.split(',').map(Number);
-    //   console.log(b)
-
-    //  this.newdata  = Object.assign({SkillID : obj});
-    //  console.log(this.newdata)
-
     });
   }
   
@@ -98,18 +89,6 @@ export class EmployeeComponent implements OnInit {
   document.getElementById("EmpID")?.focus();
   window.alert("New Employee has been successfully added");
   window.location.reload();
-    // var new_data = (this.employeeForm?.value);
-    // console.log(new_data);
-    // console.log(JSON.stringify(this.employeeForm?.value));
-    // if(localStorage.getItem('data') == null){
-    //   localStorage.setItem('data','[]');
-    // }
-    // var old_data = JSON.parse(localStorage.getItem('data') || '{}');
-    
-    // old_data.push(new_data);
-    // localStorage.setItem('data',JSON.stringify(old_data));
-
-    
 
   }
   getSkillName(id : number){
