@@ -25,18 +25,8 @@ export class EmployeeEditComponent implements OnInit {
     skills : this.fb.array([])
   });
   skillGroup : Skill[] = [];
-  
-  // EmpID : number = 1;
-  // employeeLists : Employee[] = [];
-  // skillGroup : Skill[] = [];
-  // skills = new FormControl();
-  // FName : string = "";
-  // LName : string = "";
-  // Bday = new Date();
-
-
-  // employeeForm= this.InitializeData();
-  
+  newdata = [];
+  skills = new FormControl();
 
   constructor(
     private fb:FormBuilder,
@@ -50,28 +40,15 @@ export class EmployeeEditComponent implements OnInit {
   ngOnInit(): void {
     this.getEmployee();
     this.getSkills();
- 
-    // const getID = this.router.url.split('/')[2];
-    // console.log(getID);
-    // var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-    // var EmployeeDatas =  EmpData.filter(function(Employee: { EmpID: string; }) {
-    //   return Employee.EmpID == getID;
-    // })
-    //  this.FName = EmployeeDatas.Name;
-    //  this.LName = EmployeeDatas.LastName;
-    //  this.Bday = EmployeeDatas.Birthdate;
-    
- 
-
-
-    // this.getEmployees();
     this.getSkills();
-    // this.getEmployeeData();
 
+    this.skills.valueChanges.subscribe(data => {
+    this.employeeForm?.value.Skills.push(data);
+    var data = this.employeeForm?.value.Skills
+     const obj  = data[data.length - 1]
+     this.newdata = obj.map((i: any)=>Number(i));
 
-
-    // this.employeeForm = this.InitializeData();
-    // console.log(this.employeeForm);
+    });
   }
 
   getEmployee(){
@@ -85,18 +62,11 @@ export class EmployeeEditComponent implements OnInit {
         employeeID : this.employee?.EmpID,
         firstName : this.employee?.Name,
         lastName : this.employee?.LastName,
-        birthdate : this.employee?.Birthdate
+        birthdate : this.employee?.Birthdate,
+        skills : this.employee?.Skills
       });    
 
       console.log(this.employee)
-    //   this.skillGroup.forEach((skill)=>{
-    //     if(employee.skills.findIndex(sk=>skill.id===sk) >= 0){
-    //       this.skills.push(this.formBuilder.control(true));
-    //     }else{
-    //       this.skills.push(this.formBuilder.control(false));
-    //     }
-    //   });
-    // });
   }
 
   updateChange() : void {

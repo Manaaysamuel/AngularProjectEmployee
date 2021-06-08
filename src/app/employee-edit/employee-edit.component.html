@@ -52,41 +52,20 @@
         </div>
       <br>
       
-        <!-- <mat-form-field appearance="fill" class="form-control" formControlName="Skills"  >
-            <mat-label>Skills</mat-label>
-            <mat-select [formControl]="Skills" multiple >
-              <mat-option *ngFor="let skills of skillGroup" [value]="Skills">{{skills.SkillName}}</mat-option>
-            </mat-select>
-          </mat-form-field> -->
+      <mat-form-field appearance="fill" class="form-control"  [formGroup]="employeeForm"  >
+        <mat-label>Skills</mat-label>
+        <mat-select [formControl]="skills" multiple >
+          <mat-option *ngFor="let skills of skillGroup" value="{{skills.SkillID}}">{{skills.SkillName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
       <br>
       <br>
           <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
         </form>
       </div>
 
-    <!-- <div>
-      <form *ngFor="let employee of employeeLists"    (ngSubmit)="submit()">
-        <label for="fname">First Name</label>
-        <input type="text" formControlName="Name" class="form-control"  value="{{employee.Name}}"/>
-    
-        <label for="lname">Last Name</label>
-        <input type="text" formControlName="LastName" class="form-control" value="{{employee.LastName}}" />
-    
-        <label for="lname">Birthdate</label>
-        <input type="date" formControlName="Birthdate" class="form-control"  value="{{employee.Birthdate}} "/>
-    <br>
-    
-      <mat-form-field appearance="fill" class="form-control" formControlName="Skills"  >
-          <mat-label>Skills</mat-label>
-          <mat-select [formControl]="skills" multiple >
-            <mat-option *ngFor="let skills of skillGroup" [value]="skills">{{skills.SkillName}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-    <br>
-    <br>
-        <button type="submit" class="btn btn-primary btn-block mb-4">Update</button>
-      </form>
-    </div> -->
+
     
     </body>
     </html>

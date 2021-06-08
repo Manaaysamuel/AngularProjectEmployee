@@ -37,7 +37,7 @@ export class RegistrationService {
   updateEmployee(employee : Employee) : void {
     const getID = this.router.url.split('/')[2];
     let employees = this.getEmployees();
-    console.log(employee)
+    console.log(employee.Skills.slice(-1)[0])
     const index = employees.findIndex( emp => emp.EmpID === employee.EmpID );
     console.log(index)
      var EmployeeData = JSON.parse(localStorage.data);
@@ -46,10 +46,11 @@ export class RegistrationService {
     EmployeeData[i].Name = employee.Name; 
     EmployeeData[i].LastName = employee.LastName;  
     EmployeeData[i].Birthdate = employee.Birthdate; 
+    EmployeeData[i].Skills = employee.Skills.slice(-1)[0]; 
        break;  
    }
 }
-console.log(EmployeeData)
+
   localStorage.setItem("data", JSON.stringify(EmployeeData));  
   }  
 

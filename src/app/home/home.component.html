@@ -47,21 +47,31 @@
             <table id="table">
                 <thead>
                     <tr>
-                           <th style="width: 5%;">Employee ID</th>
+                           <th style="width: 5%;">Emp ID</th>
                            <th>First Name</th>
                            <th>Last Name</th>
                            <th>Birthdate</th>
                            <th style="width: 5%;">Age</th>
+                           <th style="width: 12%;">Skills</th>
                            <th style="width: 12%;">Action</th>
+                      
                            
                 </thead>
                 <tbody>
                    <tr *ngFor="let employee of employeeLists"> 
-                       <td>{{employee.EmpID}}</td>
+                       <td >{{employee.EmpID}}</td>
                        <td>{{employee.Name}}</td>
                        <td>{{employee.LastName}}</td>
                        <td>{{employee.Birthdate}}</td>
                        <td>{{getAge(employee.Birthdate)}}</td>
+                       <!-- <td>{{employee.Skills}}</td> -->
+                       <td style="width: 35%;">
+                        <ul >
+                            <li class="list-group-item" style="border:none;" *ngFor="let skillList of employee.Skills">
+                                {{ getSkillName(skillList) }}
+                            </li>
+                        </ul>
+                    </td>
                        <td>
                         <!-- <a href="employee-edit/{{employee.EmpID}}" class="btn btn-primary btn-block mb-4 btn-sm" target="_blank">Update</a>
                         <a mat-button routerLink="employee-edit/{{employee.EmpID}}" class="btn btn-primary btn-block mb-4 btn-sm" target="_blank">Update</a> -->

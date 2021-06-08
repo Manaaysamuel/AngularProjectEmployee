@@ -50,6 +50,15 @@
             <input type="date" style="width: 100%;"  formControlName="Birthdate" class="form-control" />
     
       <br>
+      <label for="Skills">Skills:</label>
+      <br>
+      <label *ngFor="let skillList of employee.Skills">  {{  getSkillName(skillList) }}</label>
+      <mat-form-field appearance="fill" class="form-control"  [formGroup]="employeeForm"  >
+        <mat-label>Skills</mat-label>
+        <mat-select [formControl]="skills" multiple >
+          <mat-option *ngFor="let skills of skillGroup" value="{{skills.SkillID}}">{{skills.SkillName}}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <br>
       <br>
           <button type="submit" class="btn btn-primary btn-block mb-4">Update</button>

@@ -48,10 +48,9 @@ export class SkillsComponent implements OnInit {
   
 btnRemove(SkillID : number) : void {
   var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
-  // window.confirm("Are you sure you want to delete this data?");
 if (confirm("Are you sure you want to delete this data?")) {
   SkillData = SkillData.filter((Skill: { SkillID: number; }) => Skill.SkillID != SkillID);
-  window.localStorage['data'] = JSON.stringify(SkillData);
+  window.localStorage['skilldata'] = JSON.stringify(SkillData);
   console.log(SkillData);
   window.location.reload();
 } else {

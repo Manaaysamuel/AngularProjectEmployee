@@ -20,7 +20,7 @@ export class EmployeeComponent implements OnInit {
   employeeLists : Employee[] = [];  
   skillGroup : Skill[] = [];
   skills = new FormControl();
- 
+  newdata = [];
 
   phases = new FormControl();
   employeeForm= this.InitializeData();
@@ -38,9 +38,20 @@ export class EmployeeComponent implements OnInit {
     this.skills.valueChanges.subscribe(data => {
       // console.log('Selected Options', data)
     //  this.employeeForm?.value.Skills = [data]
-   
+  
+
     this.employeeForm?.value.Skills.push(data);
-    console.log(this.employeeForm?.value.Skills)
+
+    var data = this.employeeForm?.value.Skills
+     const obj  = data[data.length - 1]
+
+     this.newdata = obj.map((i: any)=>Number(i));
+    //  var b = obj.split(',').map(Number);
+    //   console.log(b)
+
+    //  this.newdata  = Object.assign({SkillID : obj});
+    //  console.log(this.newdata)
+
     });
   }
   
@@ -79,8 +90,9 @@ export class EmployeeComponent implements OnInit {
     Name: employee.Name,
     LastName: employee.LastName,
     Birthdate: employee.Birthdate,
-    Skills: this.getSkillID(employee.Skills)
+    Skills: this.newdata
   }
+  console.log(datainfo);
   this.employeeData.setEmployee(datainfo);
   this.employeeForm = this.InitializeData();
   document.getElementById("EmpID")?.focus();
