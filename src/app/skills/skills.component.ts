@@ -1,62 +1,61 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup} from '@angular/forms';
-import{Skill} from './Skill';
-import {SkillsService} from '../skills.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Skill } from './Skill';
+import { SkillsService } from '../skills.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-skills',
   templateUrl: './skills.component.html',
-  styleUrls: ['./skills.component.css']
+  styleUrls: ['./skills.component.css'],
 })
 export class SkillsComponent implements OnInit {
-  SkillID : number = 1;
-  SkillList : Skill[] = [];
-  // skillSetForm: FormGroup | undefined;
-  skillSetForm  = this.formBuilder();
+  SkillID: number = 1;
+  SkillList: Skill[] = [];
+  skillSetForm = this.formBuilder();
   constructor(
-    private fb:FormBuilder,
-    private SkillsData : SkillsService
-    ) { }
+    private fb: FormBuilder,
+    private SkillsData: SkillsService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.getSkills();
     this.skillSetForm = this.formBuilder();
+    console.log(this.location.path());
   }
   formBuilder() {
-    for(;this.SkillList.findIndex(skill=>skill.SkillID===this.SkillID) > -1; this.SkillID++);
+    for (
+      ;
+      this.SkillList.findIndex((skill) => skill.SkillID === this.SkillID) > -1;
+      this.SkillID++
+    );
 
     return this.fb.group({
-         SkillID : [this.SkillID],
-         SkillName: ['']
-      })
+      SkillID: [this.SkillID],
+      SkillName: [''],
+    });
   }
-  getSkills() : void {
-    this.SkillList = this.SkillsData.getSkills();
-  }
-  submit(){
+  submit() {
     let skill = this.skillSetForm?.value;
-    let skilldatainfo : Skill = {
+    let skilldatainfo: Skill = {
       SkillID: skill.SkillID,
       SkillName: skill.SkillName,
-    }
+    };
     this.SkillsData.setSkills(skilldatainfo);
     this.skillSetForm = this.formBuilder();
-    document.getElementById("SkillID")?.focus();
-    window.alert("New Skill has been successfully added");
-    window.location.reload();
+    document.getElementById('SkillID')?.focus();
+    this.Notification = 'New Skill has successfully been added!';
+    this.showToastNotif();
   }
-
-  
-btnRemove(SkillID : number) : void {
-  var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
-if (confirm("Are you sure you want to delete this data?")) {
-  SkillData = SkillData.filter((Skill: { SkillID: number; }) => Skill.SkillID != SkillID);
-  window.localStorage['skilldata'] = JSON.stringify(SkillData);
-  console.log(SkillData);
-  window.location.reload();
-} else {
-  window.location.reload();
-}
-}
-  
-
+  returnToPrevPage(): void {
+    this.location.back();
+  }
+  showToast = false;
+  Notification = '';
+  showToastNotif() {
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+      this.returnToPrevPage();
+    }, 1000);
+  }
 }

@@ -1,60 +1,77 @@
+<style>
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
 
-    <style>
-    input[type=text], select {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    
-    input[type=submit] {
-      width: 100%;
-      background-color: #4CAF50;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    input[type=submit]:hover {
-      background-color: #45a049;
-    }
-    
-    div {
-      border-radius: 5px;
-      background-color: #f2f2f2;
-      padding: 20px;
-    }
-    </style>
-    <body>
-    
-    <h3>Update Skills</h3>
-    <div>
-      <form class="form" *ngIf="skill" [formGroup]="skillSetForm" (submit)="updateSkills()">
-        <label for="SkillName" class="form-label">Skill Name</label>
-        <input id="SkillName"  type="text" class="form-control" formControlName="SkillName" >
-        <br>
-        <button type="submit" class="btn btn-primary btn-block mb-4">Update</button>
-      </form>
-    </div>
+  input[type="submit"] {
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+</style>
+<body>
+  <h3>Update Skills</h3>
+  <div>
+    <form
+      class="form"
+      *ngIf="skill"
+      [formGroup]="skillSetForm"
+      (submit)="updateSkills()"
+    >
+      <label for="SkillName" class="form-label">Skill Name</label>
+      <input
+        id="SkillName"
+        type="text"
+        class="form-control"
+        formControlName="SkillName"
+      />
+      <br />
+      <button type="submit" class="btn btn-primary btn-block mb-4">
+        Update
+      </button>
+    </form>
+  </div>
 </body>
 
-
-    <!-- <div>
-        <form class="form" *ngIf="skill" [formGroup]="skillSetForm"  >
-          <label for="SkillName" class="form-label">Skill Name: {{skill.SkillName}}</label>
-          <input id="SkillName"  type="text" class="form-control" formControlName="SkillName" >
-      <br>
-          <button type="submit" class="btn btn-primary btn-block mb-4">Update</button>
-        </form>
-      </div>
-    
-    </body> -->
-
-    
+<div class="card text-center">
+  <div
+    *ngIf="showToast"
+    class="card shadow"
+    style="
+      max-width: 500px;
+      max-height: fit-content;
+      position: fixed;
+      bottom: 20px;
+      justify-content: center;
+    "
+  >
+    <div class="card-header">
+      <h6 class="card-title">Notification</h6>
+    </div>
+    <div class="card-boddy m-1">
+      <p class="card-text">{{ Notification }}</p>
+    </div>
+  </div>
+</div>

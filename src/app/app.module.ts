@@ -15,9 +15,10 @@ import  {MatButtonModule} from '@angular/material/button';
 import  {MatCheckboxModule} from '@angular/material/checkbox';
 import  {MatChipsModule} from '@angular/material/chips';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
+
 import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
 import { SkillseditComponent } from './skillsedit/skillsedit.component';
+import { SkillshomepageComponent } from './skillshomepage/skillshomepage.component';
 
 
 // import  {} from;
@@ -30,9 +31,9 @@ import { SkillseditComponent } from './skillsedit/skillsedit.component';
     SkillsComponent,
     HomeComponent,
     HeaderComponent,
-    EmployeeEditComponent,
     EditEmployeeComponent,
-    SkillseditComponent
+    SkillseditComponent,
+    SkillshomepageComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
 import {FormControl} from '@angular/forms';
-
+import { Location } from '@angular/common';
 
 
 import{Skill} from '../skills/Skill';
@@ -14,7 +14,6 @@ import {SkillsService} from '../skills.service';
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })
-
 export class EmployeeComponent implements OnInit {
   EmpID : number = 1;
   employeeLists : Employee[] = [];  
@@ -27,34 +26,27 @@ export class EmployeeComponent implements OnInit {
   constructor(
     private fb:FormBuilder,
     private employeeData : RegistrationService,
-    private skillData :SkillsService
+    private skillData :SkillsService,
+    private location : Location
     ) { }
 
   ngOnInit(): void {
     this.getSkills();
     this.getEmployees();
     this.employeeForm = this.InitializeData();
- 
     this.skills.valueChanges.subscribe(data => {
- 
     this.employeeForm?.value.Skills.push(data);
-
     var data = this.employeeForm?.value.Skills
      const obj  = data[data.length - 1]
-
      this.newdata = obj.map((i: any)=>Number(i));
     });
   }
   
-  
-
   InitializeData() {
-
     for(
       ;this.employeeLists.findIndex(
         emp=>emp.EmpID===this.EmpID
         ) > -1; this.EmpID++);
-
     return this.fb.group({
         EmpID : [this.EmpID],
         Name: [''],
@@ -65,7 +57,6 @@ export class EmployeeComponent implements OnInit {
   }
   getEmployees() : void {
     this.employeeLists = this.employeeData.getEmployees();
-    
   }
   getSkills() : void {
     this.skillGroup = this.skillData.getSkills();
@@ -74,7 +65,6 @@ export class EmployeeComponent implements OnInit {
     return this.employeeForm?.get("skills") as FormArray;
   }
   submit(): void {
-  console.log(this.employeeForm?.value)
   let employee = this.employeeForm?.value;
   let datainfo : Employee = {
     EmpID: employee.EmpID,
@@ -83,19 +73,15 @@ export class EmployeeComponent implements OnInit {
     Birthdate: employee.Birthdate,
     Skills: this.newdata
   }
-  console.log(datainfo);
   this.employeeData.setEmployee(datainfo);
   this.employeeForm = this.InitializeData();
   document.getElementById("EmpID")?.focus();
-  window.alert("New Employee has been successfully added");
-  window.location.reload();
-
+  this.Notification = "Employee has successfully been created!";
+  this.showToastNotif();
   }
   getSkillName(id : number){
     return this.skillData.getSkillName(id);
   }
-  
-  
   getSkillID(selectedSkill : boolean[]){
     var ids : number[] = [];
     this.skillGroup.forEach((value, index)=>{
@@ -105,6 +91,19 @@ export class EmployeeComponent implements OnInit {
     });
     return ids;
   }
- 
+  returnToPrevPage() : void{
+    this.location.back();
+  }
+
+  showToast = false;
+  Notification = "";
+
+  showToastNotif() {
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+      this.returnToPrevPage();
+    }, 2500);
+  }
   
 }

@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import{Skill} from '../skills/Skill';
+import { Location } from '@angular/common';
 import {SkillsService} from '../skills.service';
 import {FormControl} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-edit-employee',
@@ -13,6 +15,7 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['./edit-employee.component.css']
 })
 export class EditEmployeeComponent implements OnInit {
+
   employee :  Employee | undefined;
   employeeForm = this.fb.group({
     EmpID : [''],
@@ -24,39 +27,48 @@ export class EditEmployeeComponent implements OnInit {
   });
   skillGroup : Skill[] = [];
   skills = new FormControl();
-  newdata = [];
-  newdataconverted = [];
-
-
+  EmployeeGroup = [];
   constructor(
     private fb:FormBuilder,
     private employeeDataService : RegistrationService,
     private skillData :SkillsService,
-    private router: Router
+    private router: Router,
+    private location : Location,
+    private activatedRoute: ActivatedRoute
+  
   ) { }
 
   ngOnInit(): void {
     this.getEmployee();
     this.getSkills();
-    this.skills.valueChanges.subscribe(data => {
-    var datav2 = [];
-    datav2.push(data);
-    
-   
-     const obj  = datav2[datav2.length - 1]
-     console.log(obj)
-     this.newdata = obj.map((i: any)=>Number(i));
-     console.log(this.newdata)
-     this.employeeForm?.value.Skills.push(this.newdata);
-    });
-  }
 
+    // this.skills.valueChanges.subscribe(data => {
+    // var datav2 = [];
+    // datav2.push(data);
+    //  const obj  = datav2[datav2.length - 1]
+    //  console.log(obj)
+    //  this.EmployeeGroup = obj.map((i: any)=>Number(i));
+    //  this.employeeForm?.value.Skills.push(this.EmployeeGroup);
+    // });
+
+//----------------------------------------------------------------------//
+    //Fixed
+    this.skills.valueChanges.subscribe(employeeData => { 
+      //EmployeeDataCollection
+       var EmpCollection = new Array();
+       EmpCollection.push(employeeData); //push the mapped data to array
+       const obj  = EmpCollection[EmpCollection.length - 1] //get the last value of array
+       this.EmployeeGroup = obj.map((i: any)=>Number(i));
+       this.employeeForm?.value.Skills.push(this.EmployeeGroup);
+      });
+  }
+//----------------------------------------------------------------------//
 
   getEmployee(){
-    const getID = this.router.url.split('/')[2];
+    var EmpID = this.activatedRoute.snapshot.paramMap.get('id');
     var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
     var EmployeeDatas =  EmpData.filter(function(Employee: { EmpID: string; }) {
-      return Employee.EmpID == getID;
+      return Employee.EmpID == EmpID;
     })
 
     this.employee = EmployeeDatas[0];
@@ -65,17 +77,15 @@ export class EditEmployeeComponent implements OnInit {
         Name : this.employee?.Name,
         LastName : this.employee?.LastName,
         Birthdate : this.employee?.Birthdate,
-        Skills : this.newdata
+        Skills : this.EmployeeGroup
       }); 
     }
     
     updateEmployee() : void {
       let employee = this.employeeForm.value;
-      console.log(employee)
       this.employeeDataService.updateEmployee(employee);
-      window.alert("This Employee has been successfully updated");
-      window.location.reload();
-     
+      this.Notification = "Employee has successfully been updated!";
+      this.showToastNotif();
     }
 
     get fname() {
@@ -91,9 +101,23 @@ export class EditEmployeeComponent implements OnInit {
     }
     getSkills() : void {
       this.skillGroup = this.skillData.getSkills();
-      console.log(this.skillGroup)
     }
+
    getSkillName(id : number){
     return this.skillData.getSkillName(id);
+    }
+   returnToPrevPage() : void{
+    this.location.back();
+    }
+
+  showToast = false;
+  Notification = "";
+
+  showToastNotif() {
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+      this.returnToPrevPage();
+    }, 2500);
   }
 }

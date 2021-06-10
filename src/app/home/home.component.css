@@ -1,1 +1,16 @@
 @import '~mdb-ui-kit/css/mdb.min.css';
+.divider{
+    width:20px;
+    height:auto;
+    display:inline-block;
+}
+.center {
+
+    position: absolute;
+    width: 420px;
+    height: 200px;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -150px;
+  }

@@ -1,40 +1,40 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {EmployeeComponent} from './employee/employee.component';
-import {HomeComponent} from './home/home.component';
-import{SkillsComponent} from './skills/skills.component';
-import {EmployeeEditComponent} from './employee-edit/employee-edit.component';
-import {EditEmployeeComponent} from './edit-employee/edit-employee.component';
-import {SkillseditComponent} from './skillsedit/skillsedit.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { HomeComponent } from './home/home.component';
+import { SkillsComponent } from './skills/skills.component';
+import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
+import { SkillseditComponent } from './skillsedit/skillsedit.component';
+import { SkillshomepageComponent } from './skillshomepage/skillshomepage.component';
 const routes: Routes = [
   {
-    path:"home",
-    component:HomeComponent
+    path: 'home',
+    component: HomeComponent,
   },
   {
-    path:"employee",
-    component:EmployeeComponent
+    path: 'employee',
+    component: EmployeeComponent,
   },
   {
-    path:"skills",
-    component:SkillsComponent
+    path: 'skills',
+    component: SkillsComponent,
   },
   {
-    path:"employee-edit/:id",
-    component:EmployeeEditComponent
+    path: 'edit-employee/:id',
+    component: EditEmployeeComponent,
   },
   {
-    path:"edit-employee/:id",
-    component:EditEmployeeComponent
+    path: 'edit-skills/:id',
+    component: SkillseditComponent,
   },
   {
-    path:"edit-skills/:id",
-    component:SkillseditComponent
+    path: 'skillhomepage',
+    component: SkillshomepageComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
