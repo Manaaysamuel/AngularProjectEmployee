@@ -1,28 +1,66 @@
+'use strict';
 
-class EmployeeController {
-    async EmployeeInsert(params, token) {
-        		try {
-        			let request = dbc.pool.request()
-        				.input(`FirstName`, params.FirstName)
-        				.input(`LastName`, params.LastName)
-        				.input(`Birthdate`, params.Birthdate)
-        
-        			let response = await request.execute('usp_api_EmployeeInsert');
-        
-        			if (global.GetLengthResponse(response) > 0) {
-        				let res = global.resultparams(1, "Successfully Saved!", 200);
-        				return res;
-        			}
-        			else
-        				return global.resultparams(false, "Invalid.", 400);
-        		}
-        		catch (err) {
-        			Log.error(err.message);
-        			return global.resultparams(0, err.message, 500);
-        		}
-        	}
-        
-       
+// const employeeData = require('../data/employees');
+const employeeData = require('../data/employees');
+
+const getAllEmployee = async (req, res, next) => {
+    try {
+
+        const emplist = await employeeData.getEmployee();
+        res.send(emplist);        
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 }
 
-module.exports = {EmployeeController};
+
+
+const getEmployeeById = async (req, res, next) => {
+    try {
+        const EmployeeID = req.params.id;
+        const employee = await employeeData.getEmployeeById(EmployeeID);
+        res.send(employee);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
+const addEmployee = async (req, res, next) => {
+    try {
+        const data = req.body;
+        const insert = await employeeData.creatEmployee(data);
+        res.send(insert);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
+const updatEmployee = async (req, res, next) => {
+    try {
+        const employeeId =  req.params.id;
+        const data = req.body;
+        console.log(employeeId,data, 'DATA HEEERREE')
+        const updated = await employeeData.updateEmployee(employeeId, data);
+        res.send(updated);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
+const deleteEmployee = async (req, res, next) => {
+    try {
+        const employeeId = req.params.id;
+        const deletedEmployee = await employeeData.deleteEmployee(employeeId);
+        res.send(deletedEmployee);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
+module.exports = {
+    getAllEmployee,
+    getEmployeeById,
+    addEmployee,
+    updatEmployee,
+    deleteEmployee
+}

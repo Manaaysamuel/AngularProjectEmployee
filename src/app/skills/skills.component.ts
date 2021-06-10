@@ -9,7 +9,6 @@ import { Location } from '@angular/common';
   styleUrls: ['./skills.component.css'],
 })
 export class SkillsComponent implements OnInit {
-  SkillID: number = 1;
   SkillList: Skill[] = [];
   skillSetForm = this.formBuilder();
   constructor(
@@ -23,14 +22,15 @@ export class SkillsComponent implements OnInit {
     console.log(this.location.path());
   }
   formBuilder() {
+    var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
     for (
-      ;
-      this.SkillList.findIndex((skill) => skill.SkillID === this.SkillID) > -1;
-      this.SkillID++
+      var skillLastValArray = SkillData[SkillData.length - 1];
+      skillLastValArray >= 0;
+
     );
 
     return this.fb.group({
-      SkillID: [this.SkillID],
+      SkillID: [skillLastValArray.SkillID + 1],
       SkillName: [''],
     });
   }

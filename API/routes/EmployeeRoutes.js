@@ -1,20 +1,16 @@
-const { json } = require('body-parser');
-const Express = require('express');
+'use strict';
 
-const router = require("express").Router();
+const express = require('express');
+const employeeControl = require('../controllers/employeeController');
+const router = express.Router();
 
-const EmployeeController = require(`${global.appController}/EmployeeController`);
-const Employee = new EmployeeController();
-
-
-router.post('/EmployeeInsert/', async (req, res) => {
-	var response = await Employee.EmployeeInsert(req.body);
-	global.RouteLogs(req.params);
-	if (response.http_code) res.status(response.http_code);
-	res.send(response);
-});
+router.get('/getEmployees', employeeControl.getAllEmployee);
+router.get('/getEmployeeByID/:id', employeeControl.getEmployeeById);
+router.post('/addEmployee', employeeControl.addEmployee);
+router.put('/updateEmployee/:id', employeeControl.updatEmployee);
+router.delete('/deleteEmployee/:id', employeeControl.deleteEmployee);
 
 
-
-// 4. 
-module.exports = router; // export to use in server.js
+module.exports = {
+    routes: router
+}
