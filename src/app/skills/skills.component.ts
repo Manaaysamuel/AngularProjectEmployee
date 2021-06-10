@@ -24,13 +24,13 @@ export class SkillsComponent implements OnInit {
   formBuilder() {
     var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
     for (
-      var skillLastValArray = SkillData[SkillData.length - 1];
-      skillLastValArray >= 0;
+      var skillLastArrayVal = SkillData[SkillData.length - 1];
+      skillLastArrayVal >= 0;
 
     );
 
     return this.fb.group({
-      SkillID: [skillLastValArray.SkillID + 1],
+      SkillID: [skillLastArrayVal.SkillID + 1],
       SkillName: [''],
     });
   }

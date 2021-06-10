@@ -44,12 +44,12 @@ export class EmployeeComponent implements OnInit {
   InitializeData() {
     var EmployeeData = JSON.parse(localStorage.getItem('data') || '{}');
     for (
-      var EmpLastValArray = EmployeeData[EmployeeData.length - 1];
-      EmpLastValArray >= 0;
+      var EmpLastArrayVal = EmployeeData[EmployeeData.length - 1];
+      EmpLastArrayVal >= 0;
 
     );
     return this.fb.group({
-      EmpID: [EmpLastValArray.EmpID + 1],
+      EmpID: [EmpLastArrayVal.EmpID + 1],
       Name: [''],
       LastName: [''],
       Birthdate: [''],
