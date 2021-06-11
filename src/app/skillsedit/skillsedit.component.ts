@@ -56,6 +56,6 @@ export class SkillseditComponent implements OnInit {
     setTimeout(() => {
       this.showToast = false;
       this.returnToPrevPage();
-    }, 2500);
+    }, 1000);
   }
 }

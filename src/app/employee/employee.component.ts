@@ -18,7 +18,7 @@ export class EmployeeComponent implements OnInit {
   employeeLists: Employee[] = [];
   skillGroup: Skill[] = [];
   skills = new FormControl();
-  newdata = [];
+  skillDataList = [];
 
   phases = new FormControl();
   employeeForm = this.InitializeData();
@@ -32,24 +32,36 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.getSkills();
     this.getEmployees();
+    this.InitializeData();
     this.employeeForm = this.InitializeData();
     this.skills.valueChanges.subscribe((data) => {
       this.employeeForm?.value.Skills.push(data);
       var data = this.employeeForm?.value.Skills;
-      const obj = data[data.length - 1];
-      this.newdata = obj.map((i: any) => Number(i));
+      const SkillArrayList = data[data.length - 1];
+      this.skillDataList = SkillArrayList.map((i: any) => Number(i));
     });
   }
 
   InitializeData() {
+    this.getEmployees();
     var EmployeeData = JSON.parse(localStorage.getItem('data') || '{}');
+    var EmpList;
+
+    var empStaticData = [
+      { EmpID: 0, Name: '', LastName: '', Birtdate: '', Skills: [] },
+    ];
+    if (EmployeeData.length <= 0) {
+      EmpList = empStaticData[empStaticData.length - 1];
+    } else {
+      EmpList = EmployeeData[EmployeeData.length - 1];
+    }
     for (
-      var EmpLastArrayVal = EmployeeData[EmployeeData.length - 1];
+      var EmpLastArrayVal = EmpList[EmpList.length - 1];
       EmpLastArrayVal >= 0;
 
     );
     return this.fb.group({
-      EmpID: [EmpLastArrayVal.EmpID + 1],
+      EmpID: [EmpList.EmpID + 1],
       Name: [''],
       LastName: [''],
       Birthdate: [''],
@@ -72,7 +84,7 @@ export class EmployeeComponent implements OnInit {
       Name: employee.Name,
       LastName: employee.LastName,
       Birthdate: employee.Birthdate,
-      Skills: this.newdata,
+      Skills: this.skillDataList,
     };
     this.employeeData.setEmployee(datainfo);
     this.employeeForm = this.InitializeData();

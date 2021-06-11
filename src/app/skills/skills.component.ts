@@ -23,14 +23,22 @@ export class SkillsComponent implements OnInit {
   }
   formBuilder() {
     var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
+    var skillList;
+    var staticSkillVal = [{ SkillID: 0, SkillName: '' }];
+    if (SkillData.length <= 0) {
+      skillList = staticSkillVal[staticSkillVal.length - 1];
+    } else {
+      skillList = SkillData[SkillData.length - 1];
+    }
+
     for (
-      var skillLastArrayVal = SkillData[SkillData.length - 1];
+      var skillLastArrayVal = skillList[skillList.length - 1];
       skillLastArrayVal >= 0;
 
     );
 
     return this.fb.group({
-      SkillID: [skillLastArrayVal.SkillID + 1],
+      SkillID: [skillList.SkillID + 1],
       SkillName: [''],
     });
   }
