@@ -40,14 +40,12 @@ export class HomeComponent implements OnInit {
     );
   }
   btnRemoveYes() {
-    console.log('yes');
     window.localStorage['data'] = JSON.stringify(this.EmployeeDataList);
     this.getEmployees();
     this.showToastYN = false;
   }
   btnRemoveCancel() {
     this.getEmployees();
-    console.log('NO');
     this.showToastYN = false;
   }
 

@@ -26,14 +26,12 @@ export class SkillshomepageComponent implements OnInit {
     );
   }
   btnRemoveYes() {
-    console.log('yes');
     window.localStorage['skilldata'] = JSON.stringify(this.SkillDataList);
     this.getSkills();
     this.showToastYN = false;
   }
   btnRemoveCancel() {
     this.getSkills();
-    console.log('NO');
     this.showToastYN = false;
   }
 

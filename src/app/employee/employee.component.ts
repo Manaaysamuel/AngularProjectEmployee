@@ -44,9 +44,9 @@ export class EmployeeComponent implements OnInit {
 
   InitializeData() {
     this.getEmployees();
-    var EmployeeData = JSON.parse(localStorage.getItem('data') || '{}');
-    var EmpList;
+    var EmployeeData = JSON.parse(localStorage.getItem('data') || '[]');
 
+    var EmpList;
     var empStaticData = [
       { EmpID: 0, Name: '', LastName: '', Birtdate: '', Skills: [] },
     ];
@@ -55,11 +55,7 @@ export class EmployeeComponent implements OnInit {
     } else {
       EmpList = EmployeeData[EmployeeData.length - 1];
     }
-    for (
-      var EmpLastArrayVal = EmpList[EmpList.length - 1];
-      EmpLastArrayVal >= 0;
 
-    );
     return this.fb.group({
       EmpID: [EmpList.EmpID + 1],
       Name: [''],

@@ -19,10 +19,9 @@ export class SkillsComponent implements OnInit {
 
   ngOnInit(): void {
     this.skillSetForm = this.formBuilder();
-    console.log(this.location.path());
   }
   formBuilder() {
-    var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
+    var SkillData = JSON.parse(localStorage.getItem('skilldata') || '[]');
     var skillList;
     var staticSkillVal = [{ SkillID: 0, SkillName: '' }];
     if (SkillData.length <= 0) {
@@ -30,12 +29,6 @@ export class SkillsComponent implements OnInit {
     } else {
       skillList = SkillData[SkillData.length - 1];
     }
-
-    for (
-      var skillLastArrayVal = skillList[skillList.length - 1];
-      skillLastArrayVal >= 0;
-
-    );
 
     return this.fb.group({
       SkillID: [skillList.SkillID + 1],

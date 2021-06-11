@@ -1,30 +1,27 @@
 import { Injectable } from '@angular/core';
-import {Skill} from './skills/Skill';
-import {Skills} from './skills/Skills';
+import { Skill } from './skills/Skill';
+import { Skills } from './skills/Skills';
 import { Router } from '@angular/router';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkillsService {
+  constructor(private router: Router) {}
 
-  constructor(
-    private router: Router
-  ) { }
-
-  getSkills() : Skill[] { 
+  getSkills(): Skill[] {
     return Skills();
   }
 
-  setSkills(skill : Skill) : void {
+  setSkills(skill: Skill): void {
     let skills = this.getSkills();
     skills.push(skill);
-    window.localStorage.setItem("skilldata",JSON.stringify(skills));
+    window.localStorage.setItem('skilldata', JSON.stringify(skills));
   }
 
-  getSkillName(id : number) : string {
-    var Skill = "NONE";
-    for(let skill of this.getSkills()){
-      if(skill.SkillID === id){
+  getSkillName(id: number): string {
+    var Skill = 'NONE';
+    for (let skill of this.getSkills()) {
+      if (skill.SkillID === id) {
         Skill = skill.SkillName;
         break;
       }
@@ -32,24 +29,15 @@ export class SkillsService {
     return Skill;
   }
 
-  updateSkills(skill : Skill) : void {
-    const getID = this.router.url.split('/')[2];
-    let skills = this.getSkills();
-    
-    // const index = skills.findIndex( skillData => skillData.SkillID === skill.SkillID );
-    // console.log(index)
-     var SkillData = JSON.parse(localStorage.skilldata);
-    //  console.log(SkillData)
+  updateSkills(skill: Skill): void {
+    var SkillData = JSON.parse(localStorage.skilldata);
     for (var i = 0; i < SkillData.length; i++) {
-   if(getID == SkillData[i].SkillID){ 
-    // console.log(SkillData[i].SkillName)
-    // console.log(skill.SkillName)
-     SkillData[i].SkillName = skill.SkillName; 
+      if (skill.SkillID == SkillData[i].SkillID) {
+        SkillData[i].SkillName = skill.SkillName;
+        break;
+      }
+    }
 
-       break;  
-   }
-}
-
-   localStorage.setItem("skilldata", JSON.stringify(SkillData));  
-  }  
+    localStorage.setItem('skilldata', JSON.stringify(SkillData));
+  }
 }
