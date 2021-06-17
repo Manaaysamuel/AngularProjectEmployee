@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Skill } from '../skills/Skill';
 import { SkillsService } from '../skills.service';
+
 @Component({
   selector: 'app-skillshomepage',
   templateUrl: './skillshomepage.component.html',
@@ -9,25 +10,43 @@ import { SkillsService } from '../skills.service';
 export class SkillshomepageComponent implements OnInit {
   SkillList: Skill[] = [];
   SkillDataList = [];
+  SkillID = 0;
+
   constructor(private skillsData: SkillsService) {}
 
   ngOnInit(): void {
     this.getSkills();
   }
+
   getSkills(): void {
-    this.SkillList = this.skillsData.getSkills();
-  }
-  btnRemoveSkill(SkillID: number): void {
-    this.SkillDataList = JSON.parse(localStorage.getItem('skilldata') || '{}');
-    this.NotificationYN = 'Are you sure you want to remove this data?';
-    this.showToastNotifYN();
-    this.SkillDataList = this.SkillDataList.filter(
-      (Skill: { SkillID: number }) => Skill.SkillID != SkillID
+    this.skillsData.getDbSkills().subscribe(
+      (Skills) => {
+        this.SkillList = Skills.map((skill) => {
+          return {
+            SkillID: skill.SkillID,
+            SkillName: skill.SkillName,
+          };
+        });
+      },
+      (err) => console.log(err)
     );
   }
+
+  btnRemoveSkill(SkillID: number): void {
+    this.SkillID = SkillID;
+    this.NotificationYN = 'Are you sure you want to remove this data?';
+    this.showToastNotifYN();
+  }
   btnRemoveYes() {
-    window.localStorage['skilldata'] = JSON.stringify(this.SkillDataList);
-    this.getSkills();
+    this.skillsData.deleteDbSkill(this.SkillID).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err),
+      () => {
+        document.getElementById('modalCloseBtn')?.click();
+        this.getSkills();
+      }
+    );
+
     this.showToastYN = false;
   }
   btnRemoveCancel() {

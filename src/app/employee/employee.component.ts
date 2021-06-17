@@ -19,6 +19,7 @@ export class EmployeeComponent implements OnInit {
   skillGroup: Skill[] = [];
   skills = new FormControl();
   skillDataList = [];
+  DataList = [];
 
   phases = new FormControl();
   employeeForm = this.InitializeData();
@@ -32,6 +33,7 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.getSkills();
     this.getEmployees();
+    this.generateEmpID();
     this.InitializeData();
     this.employeeForm = this.InitializeData();
     this.skills.valueChanges.subscribe((data) => {
@@ -42,52 +44,96 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  InitializeData() {
-    this.getEmployees();
-    var EmployeeData = JSON.parse(localStorage.getItem('data') || '[]');
-
-    var EmpList;
-    var empStaticData = [
-      { EmpID: 0, Name: '', LastName: '', Birtdate: '', Skills: [] },
-    ];
-    if (EmployeeData.length <= 0) {
-      EmpList = empStaticData[empStaticData.length - 1];
-    } else {
-      EmpList = EmployeeData[EmployeeData.length - 1];
-    }
-
-    return this.fb.group({
-      EmpID: [EmpList.EmpID + 1],
-      Name: [''],
-      LastName: [''],
-      Birthdate: [''],
-      Skills: this.fb.array([]),
-    });
+  generateEmpID(): void {
+    this.employeeData.empNextID().subscribe(
+      (response) => (this.EmpID = response),
+      (err) => console.error(err),
+      () => {
+        this.getEmployees();
+      }
+    );
   }
   getEmployees(): void {
-    this.employeeLists = this.employeeData.getEmployees();
+    this.employeeData.getDBEmployees().subscribe(
+      (employees) => {
+        this.employeeLists = employees.map((employee) => {
+          return {
+            EmpID: employee.EmpID,
+            Name: employee.Name,
+            LastName: employee.LastName,
+            Birthdate: employee.Birthdate,
+            Skills: employee.Skills,
+          };
+        });
+      },
+      (err) => console.log(err)
+    );
   }
+
+  InitializeData() {
+    for (
+      ;
+      this.employeeLists.findIndex((emp) => emp.EmpID == this.EmpID) > -1;
+      this.EmpID++
+    );
+
+    return this.fb.group(
+      {
+        EmpID: [this.EmpID],
+        Name: [''],
+        LastName: [''],
+        Birthdate: [''],
+        Skills: this.fb.array([]),
+      },
+      { updateOn: 'blur' }
+    );
+  }
+
   getSkills(): void {
-    this.skillGroup = this.skillData.getSkills();
+    this.skillData.getDbSkills().subscribe(
+      (Skills) => {
+        this.skillGroup = Skills.map((skill) => {
+          return {
+            SkillID: skill.SkillID,
+            SkillName: skill.SkillName,
+          };
+        });
+      },
+      (err) => console.log(err)
+    );
   }
+
   get skillsinfo() {
     return this.employeeForm?.get('skills') as FormArray;
   }
+
   submit(): void {
     let employee = this.employeeForm?.value;
-    let datainfo: Employee = {
+    let data: Employee = {
       EmpID: employee.EmpID,
       Name: employee.Name,
       LastName: employee.LastName,
       Birthdate: employee.Birthdate,
       Skills: this.skillDataList,
     };
-    this.employeeData.setEmployee(datainfo);
-    this.employeeForm = this.InitializeData();
-    document.getElementById('EmpID')?.focus();
-    this.Notification = 'Employee has successfully been created!';
-    this.showToastNotif();
+    this.employeeData.postDBEmployee(data).subscribe(
+      (res) => console.log(res),
+      (err) => console.error(err),
+      () => {
+        this.employeeForm?.patchValue({
+          EmpID: '',
+          Name: '',
+          LastName: '',
+          Birthdate: '',
+          Skills: [],
+        });
+        document.getElementById('employeeID')?.focus();
+        this.Notification = 'New Employee Added!';
+        this.showToastNotif();
+      }
+    );
   }
+
   getSkillName(id: number) {
     return this.skillData.getSkillName(id);
   }

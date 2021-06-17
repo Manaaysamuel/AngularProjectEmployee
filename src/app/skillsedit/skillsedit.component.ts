@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Skill } from '../skills/Skill';
 import { ActivatedRoute } from '@angular/router';
 import { SkillsService } from '../skills.service';
@@ -24,26 +24,32 @@ export class SkillseditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getSkills();
+    this.getSkill();
   }
-  getSkills() {
-    var SkillID = this.activatedRoute.snapshot.paramMap.get('id');
-    var SkillData = JSON.parse(localStorage.getItem('skilldata') || '{}');
-    var skillInfo = SkillData.filter(
-      (Skills: { SkillID: string | null }) => Skills.SkillID == SkillID
-    );
-    this.skill = skillInfo[0];
-    this.skillSetForm.patchValue({
-      SkillID: this.skill?.SkillID,
-      SkillName: this.skill?.SkillName,
+
+  getSkill() {
+    const skillID = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.skillDataService.getDbSkill(skillID).subscribe((skill) => {
+      this.skill = skill;
+      this.skillSetForm.patchValue({
+        SkillID: this.skill?.SkillID,
+        SkillName: this.skill?.SkillName,
+      });
     });
   }
-  updateSkills(): void {
+
+  updateChange(): void {
     let skill = this.skillSetForm.value;
-    this.skillDataService.updateSkills(skill);
+    this.skillDataService.updateDbSkills(skill).subscribe(
+      (response) => response,
+      (err) => console.log(err),
+      () => console.log('Updated')
+    );
+    document.getElementById('modalCloseBtn')?.click();
     this.Notification = 'Skill has successfully been updated!';
     this.showToastNotif();
   }
+
   returnToPrevPage(): void {
     this.location.back();
   }

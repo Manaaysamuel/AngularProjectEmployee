@@ -1,8 +1,7 @@
- 
 export interface Employee {
-    EmpID: number;
-    Name: string;
-    LastName: string;
-    Birthdate: Date;
-    Skills: number[];
+  EmpID: number;
+  Name: string;
+  LastName: string;
+  Birthdate: Date;
+  Skills: number[];
 }

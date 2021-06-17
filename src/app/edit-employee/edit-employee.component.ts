@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
-import { Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Skill } from '../skills/Skill';
 import { Location } from '@angular/common';
 import { SkillsService } from '../skills.service';
@@ -16,15 +16,25 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditEmployeeComponent implements OnInit {
   employee: Employee | undefined;
+  employeeLists: Employee[] = [];
+
+  employeeInfo: Employee = {
+    EmpID: -1,
+    Name: '',
+    LastName: '',
+    Birthdate: new Date(),
+    Skills: [],
+  };
   employeeForm = this.fb.group({
     EmpID: [''],
     Name: [''],
     LastName: [''],
     Birthdate: ['0000-00-00'],
-    Skills: this.fb.array([]),
+    Skills: [],
   });
   skillGroup: Skill[] = [];
   skills = new FormControl();
+
   EmployeeGroup = [];
   constructor(
     private fb: FormBuilder,
@@ -47,28 +57,51 @@ export class EditEmployeeComponent implements OnInit {
     });
   }
 
-  getEmployee() {
-    var EmpID = this.activatedRoute.snapshot.paramMap.get('id');
-    var EmpData = JSON.parse(localStorage.getItem('data') || '{}');
-    var EmployeeDatas = EmpData.filter(
-      (Employee: { EmpID: string | null }) => Employee.EmpID == EmpID
-    );
+  getEmployee(): void {
+    const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
 
-    this.employee = EmployeeDatas[0];
-    this.employeeForm.patchValue({
-      EmpID: this.employee?.EmpID,
-      Name: this.employee?.Name,
-      LastName: this.employee?.LastName,
-      Birthdate: this.employee?.Birthdate,
-      Skills: this.EmployeeGroup,
-    });
+    this.employeeDataService.getDBEmployee(id).subscribe(
+      async (employeeInfo: Employee) => {
+        this.employee = (await employeeInfo)
+          ? {
+              EmpID: employeeInfo.EmpID,
+              Name: employeeInfo.Name,
+              LastName: employeeInfo.LastName,
+              Birthdate: employeeInfo.Birthdate,
+              Skills: employeeInfo.Skills,
+            }
+          : this.employee;
+
+        this.employeeForm.patchValue({
+          EmpID: this.employee?.EmpID,
+          Name: this.employee?.Name,
+          LastName: this.employee?.LastName,
+          Birthdate: this.employee?.Birthdate,
+          Skills: this.employee?.EmpID,
+        });
+      },
+      (err) => console.log(err)
+    );
   }
 
   updateEmployee(): void {
     let employee = this.employeeForm.value;
-    this.employeeDataService.updateEmployee(employee);
-    this.Notification = 'Employee has successfully been updated!';
-    this.showToastNotif();
+    let data: Employee = {
+      EmpID: employee.EmpID,
+      Name: employee.Name,
+      LastName: employee.LastName,
+      Birthdate: employee.Birthdate,
+      Skills: this.EmployeeGroup,
+    };
+    this.employeeDataService.updateDbEmployee(data).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err),
+      () => {
+        document.getElementById('modalCloseBtn')?.click();
+        this.Notification = 'Employee has successfully been updated!';
+        this.showToastNotif();
+      }
+    );
   }
 
   get fname() {
@@ -82,8 +115,19 @@ export class EditEmployeeComponent implements OnInit {
   get bdate() {
     return this.employeeForm.get('Birthdate');
   }
+
   getSkills(): void {
-    this.skillGroup = this.skillData.getSkills();
+    this.skillData.getDbSkills().subscribe(
+      (Skills) => {
+        this.skillGroup = Skills.map((skill) => {
+          return {
+            SkillID: skill.SkillID,
+            SkillName: skill.SkillName,
+          };
+        });
+      },
+      (err) => console.log(err)
+    );
   }
 
   getSkillName(id: number) {

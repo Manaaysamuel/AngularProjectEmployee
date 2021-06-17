@@ -2,20 +2,26 @@ import { Injectable } from '@angular/core';
 import { Skill } from './skills/Skill';
 import { Skills } from './skills/Skills';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
 export class SkillsService {
-  constructor(private router: Router) {}
+  skillUrl: string = 'http://localhost:3000/skill/';
 
+  constructor(private router: Router, private http: HttpClient) {}
+
+  //============================================================//
+  //                    Get SKILLS                             //
   getSkills(): Skill[] {
     return Skills();
   }
 
-  setSkills(skill: Skill): void {
-    let skills = this.getSkills();
-    skills.push(skill);
-    window.localStorage.setItem('skilldata', JSON.stringify(skills));
+  getDbSkills() {
+    return this.http.get<Skill[]>(this.skillUrl, { responseType: 'json' });
+  }
+  getDbSkill(id: number) {
+    return this.http.get<Skill>(this.skillUrl + id, { responseType: 'json' });
   }
 
   getSkillName(id: number): string {
@@ -29,15 +35,47 @@ export class SkillsService {
     return Skill;
   }
 
-  updateSkills(skill: Skill): void {
-    var SkillData = JSON.parse(localStorage.skilldata);
-    for (var i = 0; i < SkillData.length; i++) {
-      if (skill.SkillID == SkillData[i].SkillID) {
-        SkillData[i].SkillName = skill.SkillName;
-        break;
-      }
-    }
+  //==========================================================//
 
-    localStorage.setItem('skilldata', JSON.stringify(SkillData));
+  //============================================================//
+  //                    ADD SKILLS                             //
+
+  postDBSkill(skill: Skill) {
+    const bodyRequest = {
+      SkillName: skill.SkillName,
+    };
+    return this.http.post<string>(this.skillUrl, bodyRequest, {
+      responseType: 'json',
+    });
+  }
+
+  setSkills(skill: Skill): void {
+    let skills = this.getSkills();
+    skills.push(skill);
+    window.localStorage.setItem('skilldata', JSON.stringify(skills));
+  }
+
+  //==========================================================//
+
+  //============================================================//
+  //                    Delete SKILLS                           //
+  deleteDbSkill(id: number) {
+    return this.http.delete<string>(this.skillUrl + id, {
+      responseType: 'json',
+    });
+  }
+
+  //==========================================================//
+  //============================================================//
+  //                    Update SKILLS                          //
+
+  updateDbSkills(skill: Skill) {
+    const bodyRequest = {
+      SkillName: skill.SkillName,
+    };
+    return this.http.put<string>(this.skillUrl + skill.SkillID, bodyRequest, {
+      responseType: 'json',
+    });
   }
 }
+//==========================================================//

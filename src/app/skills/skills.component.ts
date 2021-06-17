@@ -10,7 +10,8 @@ import { Location } from '@angular/common';
 })
 export class SkillsComponent implements OnInit {
   SkillList: Skill[] = [];
-  skillSetForm = this.formBuilder();
+  SkillID: number = 1;
+  skillSetForm = this.InitializeData();
   constructor(
     private fb: FormBuilder,
     private SkillsData: SkillsService,
@@ -18,34 +19,32 @@ export class SkillsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.skillSetForm = this.formBuilder();
+    this.InitializeData();
+    this.skillSetForm = this.InitializeData();
   }
-  formBuilder() {
-    var SkillData = JSON.parse(localStorage.getItem('skilldata') || '[]');
-    var skillList;
-    var staticSkillVal = [{ SkillID: 0, SkillName: '' }];
-    if (SkillData.length <= 0) {
-      skillList = staticSkillVal[staticSkillVal.length - 1];
-    } else {
-      skillList = SkillData[SkillData.length - 1];
-    }
 
-    return this.fb.group({
-      SkillID: [skillList.SkillID + 1],
-      SkillName: [''],
-    });
+  InitializeData() {
+    for (
+      ;
+      this.SkillList.findIndex((skill) => skill.SkillID == this.SkillID) > -1;
+      this.SkillID++
+    );
+
+    return this.fb.group(
+      {
+        SkillID: [this.SkillID],
+        SkillName: [''],
+      },
+      { updateOn: 'blur' }
+    );
   }
   submit() {
-    let skill = this.skillSetForm?.value;
-    let skilldatainfo: Skill = {
-      SkillID: skill.SkillID,
-      SkillName: skill.SkillName,
-    };
-    this.SkillsData.setSkills(skilldatainfo);
-    this.skillSetForm = this.formBuilder();
-    document.getElementById('SkillID')?.focus();
-    this.Notification = 'New Skill has successfully been added!';
-    this.showToastNotif();
+    let skill: Skill = this.skillSetForm.value;
+    this.SkillsData.postDBSkill(skill).subscribe((message) => {
+      this.Notification = 'New Skill Added!';
+      this.showToastNotif();
+      document.getElementById('SkillID')?.focus();
+    });
   }
   returnToPrevPage(): void {
     this.location.back();

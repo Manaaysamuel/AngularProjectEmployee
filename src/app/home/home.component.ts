@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Employee } from '../employee/employee';
 import { RegistrationService } from '../registration.service';
 import { SkillsService } from '../skills.service';
+import { Skill } from '../skills/Skill';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -11,6 +13,9 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   employeeLists: Employee[] = [];
   EmployeeDataList = [];
+  SkillList: Skill[] = [];
+  EmpID = 0;
+  totalAngularPackages: any;
   constructor(
     private employeeData: RegistrationService,
     private skillsData: SkillsService,
@@ -18,30 +23,64 @@ export class HomeComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getEmployees();
+    this.getSkills();
   }
+  getSkills(): void {
+    this.skillsData.getDbSkills().subscribe(
+      (Skills) => {
+        this.SkillList = Skills.map((skill) => {
+          return {
+            SkillID: skill.SkillID,
+            SkillName: skill.SkillName,
+          };
+        });
+      },
+      (err) => console.log(err)
+    );
+  }
+
   getEmployees(): void {
-    this.employeeLists = this.employeeData.getEmployees();
+    this.employeeData.getDBEmployees().subscribe(
+      (employees) => {
+        this.employeeLists = employees.map((employee) => {
+          return {
+            EmpID: employee.EmpID,
+            Name: employee.Name,
+            LastName: employee.LastName,
+            Birthdate: employee.Birthdate,
+            Skills: employee.Skills,
+          };
+        });
+      },
+      (err) => console.log(err)
+    );
   }
+
   getAge(date: any) {
     return this.employeeData.getAge(date);
   }
   btnClick() {
     this.router.navigateByUrl('/employee-edit/{{this.employeeLists}}');
   }
-  getSkillName(id: number) {
-    return this.skillsData.getSkillName(id);
+
+  getSkillName(id: number): string {
+    const skill = this.SkillList.filter((skill) => skill.SkillID == id);
+    return skill[0]?.SkillName;
   }
   btnRemove(employeeID: number): void {
-    this.EmployeeDataList = JSON.parse(localStorage.getItem('data') || '{}');
+    this.EmpID = employeeID;
     this.NotificationYN = 'Are you sure you want to remove this data?';
     this.showToastNotifYN();
-    this.EmployeeDataList = this.EmployeeDataList.filter(
-      (Employee: { EmpID: number }) => Employee.EmpID != employeeID
-    );
   }
   btnRemoveYes() {
-    window.localStorage['data'] = JSON.stringify(this.EmployeeDataList);
-    this.getEmployees();
+    this.employeeData.deleteDBEmployee(this.EmpID).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err),
+      () => {
+        this.getEmployees();
+        document.getElementById('modalCloseBtn')?.click();
+      }
+    );
     this.showToastYN = false;
   }
   btnRemoveCancel() {
